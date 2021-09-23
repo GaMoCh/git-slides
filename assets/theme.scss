@@ -1,0 +1,59 @@
+@import "reveal-js/css/theme/template/mixins";
+@import "reveal-js/css/theme/template/settings";
+
+$accentColor: #f05031;
+$backgroundColor: #202020;
+$linkColor: $accentColor;
+$selectionBackgroundColor: $accentColor;
+$headingTextTransform: none;
+
+@import "reveal-js/css/theme/template/theme";
+
+#logo {
+  user-select: none;
+}
+
+.reveal {
+  .slides > section {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+
+    > section {
+      height: 100%;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    img {
+      background: none;
+      box-shadow: none;
+      border: none;
+      margin: 16px;
+    }
+  }
+
+  .graph {
+    user-select: none;
+    pointer-events: none;
+  }
+
+  strong {
+    font-weight: bold;
+    color: $accentColor;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  a:hover {
+    color: $linkColor;
+    text-decoration: underline;
+  }
+}
+

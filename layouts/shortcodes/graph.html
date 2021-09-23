@@ -1,0 +1,26 @@
+<div class="graph"></div>
+<script>
+  var codes = codes || {};
+  {
+    const key = '{{ or (.Get "key") "default" }}';
+    const hash = () => (i = 0, () => `${CryptoJS.MD5(`${i++}`)}`);
+    const code = (codes[key] || '') + '{{ .Get "code" }}'.trimStart();
+    const script = document.currentScript;
+    const element = script.previousElementSibling;
+    const graph = GitgraphJS.createGitgraph(element, {
+      author: 'John Doe <john@example.com>',
+      generateCommitHash: hash(),
+      orientation: '{{ .Get "orientation" }}',
+      template: GitgraphJS.templateExtend("metro", {
+        colors: [
+          "#e41a1c", "#377eb8", "#4daf4a",
+          "#984ea3", "#ff7f00", "#ffff33",
+          "#a65628", "#f781bf", "#999999",
+        ],
+      }),
+    });
+    codes[key] = code;
+    script.remove();
+    eval(code);
+  }
+</script>

@@ -1,0 +1,15 @@
+theme = "reveal-hugo"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputFormats.Reveal]
+mediaType = "text/html"
+baseName = "index"
+isHTML = true
+
+[params.logo]
+src = "/img/git.svg"
+width = "64px"
+left = "8px"
+top = "8px"

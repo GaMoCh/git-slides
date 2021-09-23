@@ -1,0 +1,77 @@
+<div>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="terminal-bar-text">{{ or (.Get "title") "bash" }}</span>
+    </div>
+    <div class="terminal-content">{{ .Inner }}<span class="terminal-message">
+        <span class="ps1">
+          <span class="ps1-text"></span>$
+        </span>
+        <span class="fragment"></span>
+      </span>
+    </div>
+  </div>
+</div>
+<script>
+  {
+    const script = document.currentScript;
+    const container = script.previousElementSibling;
+    const content = container.querySelector(".terminal-content");
+    const messages = container.querySelectorAll('.terminal-message');
+    const elements = container.querySelectorAll('.terminal-content > *');
+    const speed = +'{{ or (.Get "speed") "50" }}';
+    let previousTyped = null;
+    let currentPs1 = '';
+    let currentSize = content.scrollHeight;
+    const observer = new ResizeObserver(() => {
+      const offset = content.scrollHeight - content.offsetHeight - 32;
+      if (content.scrollTop > offset)
+        content.scrollTop = content.scrollHeight;
+      currentSize = content.scrollHeight;
+    });
+    [content, ...messages].forEach(element => observer.observe(element));
+    script.remove();
+    [...elements].forEach(element => {
+      const nextElement = element.nextElementSibling;
+      const nextPs1 = nextElement?.querySelector('.ps1');
+      const fragment = element.querySelector('.fragment');
+      const ps1 = element.querySelector('.ps1-text');
+      currentPs1 = ps1?.textContent || currentPs1;
+      if (ps1) ps1.textContent = currentPs1;
+      if (fragment) {
+        const string = fragment.textContent;
+        fragment.textContent = '';
+        const typed = new Typed(fragment, {
+          contentType: 'null',
+          strings: [string],
+          showCursor: false,
+          typeSpeed: speed,
+          onReset(self) {
+            self.typeSpeed = speed;
+          },
+          onComplete() {
+            if (nextPs1) nextPs1.style.visibility = 'initial';
+          },
+        });
+        typed.stop();
+        if (nextPs1) nextPs1.style.visibility = 'hidden';
+        Reveal.addEventListener('fragmentshown', (previous => event => {
+          if (event.fragment == fragment) {
+            if (previous) previous.typeSpeed = 0;
+            const ps1 = element.querySelector('.ps1');
+            if (ps1) ps1.style.visibility = 'initial';
+            typed.start();
+          }
+        })(previousTyped));
+        previousTyped = typed;
+        Reveal.addEventListener('fragmenthidden', event => {
+          if (event.fragment == fragment) {
+            if (nextPs1) nextPs1.style.visibility = 'hidden';
+            typed.reset();
+            typed.stop();
+          }
+        });
+      }
+    });
+  }
+</script>

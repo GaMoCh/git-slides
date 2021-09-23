@@ -1,0 +1,80 @@
+.terminal-messages {
+  display: none;
+}
+
+.terminal {
+  box-shadow: 0 0 8px #000000;
+  width: calc(100% - 32px);
+  border-radius: 8px;
+  max-width: 800px;
+  overflow: hidden;
+  margin: auto;
+}
+
+.terminal-bar {
+  box-shadow: 0 4px 2px -2px #000000;
+  background-color: #101010;
+  position: relative;
+  height: 40px;
+}
+
+.terminal-bar::before {
+  transform: translate(0, -50%);
+  background-color: #f05031;
+  border-radius: 50%;
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  content: "";
+  left: 16px;
+  top: 50%;
+}
+
+.terminal-bar-text {
+  vertical-align: text-top;
+  user-select: none;
+  line-height: 40px;
+  font-size: 20px;
+}
+
+.terminal-content {
+  font-family: Hack, monospace;
+  background-color: #181818;
+  text-align: start;
+  overflow-y: auto;
+  font-size: 24px;
+  padding: 16px;
+  height: 200px;
+}
+
+.terminal-content::-webkit-scrollbar {
+  background-color: #242424;
+  width: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+  background-color: #303030;
+  border-radius: 4px;
+}
+
+.terminal-message {
+  display: block;
+}
+
+.terminal-message.output {
+  user-select: none;
+}
+
+.terminal-message .ps1 {
+  font-weight: bold;
+  user-select: none;
+}
+
+.terminal-message .ps1-text {
+  color: #f05031;
+}
+
+.terminal-message .fragment {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
